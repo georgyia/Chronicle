@@ -15,6 +15,12 @@ public struct EventDigest: Sendable, Hashable, Codable, CustomStringConvertible 
         self.bytes = bytes
     }
 
+    /// Creates a digest by parsing a hexadecimal string, or `nil` if malformed.
+    public init?(hexEncoded string: String) {
+        guard let data = Data(hexEncoded: string) else { return nil }
+        bytes = data
+    }
+
     /// The lowercase hexadecimal representation of the digest.
     public var description: String {
         bytes.map { String(format: "%02x", $0) }.joined()

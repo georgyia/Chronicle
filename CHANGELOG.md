@@ -22,6 +22,11 @@ The public API and CLI surface become subject to SemVer guarantees at 1.0.0.
   validation, path resolution, and a hot-reload file watcher.
 - `ChronicleTestSupport`: deterministic clock/identifier fakes and an in-memory
   repository oracle.
+- `ChronicleStorage`: SQLite/GRDB `SQLiteEventStore` implementing the repository,
+  search, and statistics protocols — numbered migrations, WAL, batched inserts with
+  digest deduplication, keyset pagination, an FTS5 external-content full-text index,
+  aggregate statistics, retention/prune, and integrity/backup maintenance. Verified
+  against the in-memory oracle by a property test, with a storage benchmark suite.
 - Tooling and governance: SwiftLint, SwiftFormat, Makefile, CI, ADRs, and the
   living roadmap.
 

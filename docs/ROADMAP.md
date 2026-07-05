@@ -21,13 +21,13 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` planned.
 
 ## Phase 2 — Storage
 
-- [ ] **S1** GRDB integration: `DatabaseManager` actor, WAL, pragmas, bootstrap.
-- [ ] **S2** Migration system + migration 001 (schema v1).
-- [ ] **S3** `SQLiteEventRepository`: batched insert, range/kind/source queries, keyset pagination.
-- [ ] **S4** FTS5 index + triggers + `SearchRepository` (bm25).
-- [ ] **S5** Retention + incremental vacuum + `delete` support.
-- [ ] **S6** Integrity utilities: `integrity_check`, checkpoint, backup.
-- [ ] **S7** Storage benchmarks: insert throughput and query p95 at 1M events.
+- [x] **S1** GRDB integration: `SQLiteEventStore` over `DatabaseWriter`, WAL, pragmas, bootstrap.
+- [x] **S2** Migration system + migration 001 (schema v1: events, FTS, collector_state, meta).
+- [x] **S3** `SQLiteEventStore`: batched insert, range/kind/source/app/path queries, keyset pagination.
+- [x] **S4** FTS5 external-content index + triggers + `SearchRepository` (bm25, snippets).
+- [x] **S5** Retention + vacuum + `delete`/`prune` support.
+- [x] **S6** Integrity utilities: `integrity_check`, checkpoint, backup.
+- [x] **S7** Storage benchmarks: insert throughput and query latency (baseline in `Benchmarks`).
 
 ## Phase 3 — Pipeline
 
