@@ -1,5 +1,6 @@
 import ChronicleCore
 import ChronicleModels
+import ChroniclePipeline
 import ChronicleStorage
 import Foundation
 
@@ -86,6 +87,30 @@ let benchmarks: [Benchmark] = [
         for _ in 0..<100 {
             _ = try await store.search(matching: EventQuery(text: "module", limit: 50))
         }
+    },
+    Benchmark(name: "pipeline.throughput.\(eventCount)") {
+        let store = try SQLiteEventStore.inMemory()
+        let session = FixedSessionProvider(sessionID: SessionID(rawValue: UUID()))
+        let pipeline = EventPipeline(
+            repository: store,
+            identifierFactory: SystemIdentifierFactory(),
+            processors: [
+                ValidationProcessor(clock: SystemWallClock()),
+                EnrichmentProcessor(session: session),
+            ],
+            settings: PipelineSettings(batchSize: 500, flushInterval: .seconds(60))
+        )
+        await pipeline.start()
+        let base = Date(timeIntervalSince1970: 1_700_000_000)
+        for index in 0..<eventCount {
+            await pipeline.submit(RawEvent(
+                timestamp: base.addingTimeInterval(Double(index)),
+                kind: .fileModified,
+                source: .filesystem,
+                attributes: [.path: .string("/Users/me/Projects/file-\(index).swift")]
+            ))
+        }
+        await pipeline.shutdown()
     },
 ]
 

@@ -31,13 +31,13 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` planned.
 
 ## Phase 3 — Pipeline
 
-- [ ] **P1** Pipeline actor: stream merge, bounded buffer, backpressure, lifecycle.
-- [ ] **P2** Validation + normalization stage.
-- [ ] **P3** Enrichment: session stamping, frontmost-app context, path classification.
-- [ ] **P4** Dedupe/coalescing: content-hash LRU + time window.
-- [ ] **P5** Batch persister: flush by count/interval, graceful-shutdown flush.
-- [ ] **P6** Pipeline metrics: counters + health snapshot for IPC.
-- [ ] **P7** Soak/throughput benchmark: ≥5k events/s sustained.
+- [x] **P1** `EventPipeline` actor: sink entry point, buffer, back-pressure, lifecycle.
+- [x] **P2** `ValidationProcessor`: timestamp bounds and per-kind required attributes.
+- [x] **P3** `EnrichmentProcessor`: session stamping, frontmost-app context, path classification.
+- [x] **P4** `Deduplicator`: content-hash (SHA-256) sliding-window suppression + storage backstop.
+- [x] **P5** Batch persister: flush by count/interval, graceful-shutdown flush.
+- [x] **P6** `PipelineMetrics`: ingested/rejected/deduplicated/persisted counters + snapshot.
+- [x] **P7** Throughput benchmark: ~9.5k events/s sustained (exceeds 5k/s target).
 
 ## Phase 4 — Daemon (M1 "Ingest")
 

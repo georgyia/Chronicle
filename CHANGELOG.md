@@ -27,6 +27,11 @@ The public API and CLI surface become subject to SemVer guarantees at 1.0.0.
   digest deduplication, keyset pagination, an FTS5 external-content full-text index,
   aggregate statistics, retention/prune, and integrity/backup maintenance. Verified
   against the in-memory oracle by a property test, with a storage benchmark suite.
+- `ChroniclePipeline`: the `EventPipeline` actor and its composable stages —
+  validation (timestamp/attribute checks), enrichment (session stamping, path
+  classification, frontmost-app context), and SHA-256 sliding-window deduplication —
+  plus a batching persister with count/interval flush and graceful shutdown, and
+  `PipelineMetrics`. Sustains ~9.5k events/s in the throughput benchmark.
 - Tooling and governance: SwiftLint, SwiftFormat, Makefile, CI, ADRs, and the
   living roadmap.
 

@@ -118,4 +118,10 @@ public struct AttributeKey: Sendable, Hashable, RawRepresentable, ExpressibleByS
     public static let commit: AttributeKey = "commit"
     /// A size in bytes.
     public static let byteCount: AttributeKey = "byte_count"
+    /// A file extension (without the dot), added during enrichment.
+    public static let fileExtension: AttributeKey = "ext"
+    /// A file's last path component, added during enrichment.
+    public static let filename: AttributeKey = "filename"
+    /// A coarse activity category (e.g. downloads, documents, code), added during enrichment.
+    public static let category: AttributeKey = "category"
 }
