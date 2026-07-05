@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint & format
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install tooling
+        run: brew install swiftlint swiftformat
+      - name: SwiftFormat (lint mode)
+        run: swiftformat . --lint
+      - name: SwiftLint (strict)
+        run: swiftlint lint --strict
+
+  build-test:
+    name: Build & test
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Show Swift version
+        run: swift --version
+      - name: Cache SwiftPM
+        uses: actions/cache@v4
+        with:
+          path: .build
+          key: spm-${{ runner.os }}-${{ hashFiles('Package.resolved') }}
+          restore-keys: spm-${{ runner.os }}-
+      - name: Build (debug)
+        run: swift build
+      - name: Build (release)
+        run: swift build -c release
+      - name: Test with coverage
+        run: swift test --enable-code-coverage --parallel
+      - name: Summarize coverage
+        run: ./scripts/coverage.sh || true
+
+  danger:
+    name: Danger
+    runs-on: macos-15
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Run Danger
+        env:
+          DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if command -v danger-swift >/dev/null 2>&1; then
+            danger-swift ci
+          else
+            brew install danger/tap/danger-swift && danger-swift ci
+          fi

@@ -1,0 +1,47 @@
+name: Docs
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build-docs:
+    name: Build DocC
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate documentation
+        run: |
+          swift package --allow-writing-to-directory ./docs-site \
+            generate-documentation \
+            --target ChronicleCore \
+            --disable-indexing \
+            --output-path ./docs-site \
+            --transform-for-static-hosting || echo "DocC generation is best-effort until Phase 10"
+      - name: Upload Pages artifact
+        if: ${{ hashFiles('docs-site/**') != '' }}
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./docs-site
+
+  deploy-docs:
+    name: Deploy to Pages
+    needs: build-docs
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
+        continue-on-error: true

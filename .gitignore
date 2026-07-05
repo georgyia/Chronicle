@@ -1,0 +1,29 @@
+# Swift / SwiftPM
+.build/
+.swiftpm/
+Package.resolved.backup
+*.xcodeproj
+*.xcworkspace
+DerivedData/
+
+# macOS
+.DS_Store
+*.swp
+
+# Chronicle runtime artifacts (never commit local activity data)
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+*.chronicle.db*
+chronicle.sock
+
+# Coverage / benchmarks output
+*.profraw
+*.profdata
+coverage/
+.benchmarkBaselines/
+
+# Secrets / local env
+.env
+*.p12
+*.provisionprofile

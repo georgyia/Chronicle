@@ -1,0 +1,12 @@
+# Code ownership for Chronicle.
+# Replace @chronicle-dev/maintainers with your team or handles before enabling.
+
+*                           @chronicle-dev/maintainers
+
+# Architecture-defining areas warrant closer review.
+/Sources/ChronicleCore/     @chronicle-dev/maintainers
+/Sources/ChronicleModels/   @chronicle-dev/maintainers
+/Sources/ChronicleStorage/  @chronicle-dev/maintainers
+/docs/adr/                  @chronicle-dev/maintainers
+/.github/                   @chronicle-dev/maintainers
+/Package.swift              @chronicle-dev/maintainers

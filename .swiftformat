@@ -1,0 +1,28 @@
+# SwiftFormat configuration for Chronicle.
+# SwiftFormat is the single source of truth for formatting; SwiftLint enforces style/complexity.
+
+--swiftversion 6.0
+--maxwidth 120
+--indent 4
+--tabwidth 4
+--semicolons never
+--commas always
+--trailingclosures
+--wraparguments before-first
+--wrapparameters before-first
+--wrapcollections before-first
+--closingparen balanced
+--funcattributes prev-line
+--typeattributes prev-line
+--stripunusedargs closure-only
+--self remove
+--importgrouping testable-bottom
+--emptybraces no-space
+--ranges no-space
+--decimalgrouping 3,6
+--binarygrouping none
+--octalgrouping none
+--hexgrouping none
+--header ignore
+
+--exclude .build,.swiftpm
