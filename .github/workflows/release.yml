@@ -1,0 +1,40 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build & publish
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Derive version
+        id: version
+        run: echo "value=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Build & package
+        run: ./scripts/release.sh "${{ steps.version.outputs.value }}"
+
+      - name: Codesign & notarize (if secrets present)
+        env:
+          DEVELOPER_ID: ${{ secrets.DEVELOPER_ID }}
+          NOTARY_PROFILE: ${{ secrets.NOTARY_PROFILE }}
+        run: ./scripts/notarize.sh "dist/chronicle-${{ steps.version.outputs.value }}" || true
+
+      - name: Publish GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/chronicle-*-macos-universal.tar.gz
+            dist/SHA256SUMS
+          generate_release_notes: true
+
+      - name: Update Homebrew tap
+        if: ${{ secrets.HOMEBREW_TAP_TOKEN != '' }}
+        run: echo "Publish the updated formula to chronicle-dev/homebrew-tap using packaging/homebrew/chronicle.rb"

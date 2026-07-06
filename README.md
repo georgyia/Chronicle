@@ -18,21 +18,27 @@ $ chronicle summarize yesterday
 
 ## Status
 
-Chronicle is under active development. See [`docs/ROADMAP.md`](docs/ROADMAP.md) for the phased
-plan and current progress.
+All ten roadmap phases are implemented. See [`docs/ROADMAP.md`](docs/ROADMAP.md) for the
+task-level breakdown and [`CHANGELOG.md`](CHANGELOG.md) for details.
 
 | Phase | Area | Status |
 |------:|------|--------|
-| 1 | Foundation | In progress |
-| 2 | Storage | Planned |
-| 3 | Pipeline | Planned |
-| 4 | Daemon | Planned |
-| 5 | Collectors | Planned |
-| 6 | CLI | Planned |
-| 7 | Search | Planned |
-| 8 | AI | Planned |
-| 9 | Performance | Planned |
-| 10 | Documentation & 1.0 | Planned |
+| 1 | Foundation | Done |
+| 2 | Storage | Done |
+| 3 | Pipeline | Done |
+| 4 | Daemon | Done |
+| 5 | Collectors | Done |
+| 6 | CLI | Done |
+| 7 | Search | Done |
+| 8 | AI | Done |
+| 9 | Performance | Done |
+| 10 | Documentation & 1.0 | Done |
+
+Documentation: [installation & quickstart](docs/guides/installation.md) ·
+[configuration](docs/guides/configuration.md) · [modules](docs/guides/modules.md) ·
+[AI](docs/guides/ai.md) · [architecture](docs/guides/architecture.md) ·
+[operations](docs/guides/operations.md) · [privacy](docs/PRIVACY.md) ·
+[FAQ](docs/guides/faq.md).
 
 ## Design principles
 

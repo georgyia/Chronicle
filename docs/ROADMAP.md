@@ -104,9 +104,9 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` planned.
 
 ## Phase 10 — Documentation & 1.0 (M7 "1.0")
 
-- [ ] **DOC1** DocC coverage for all public APIs + doc-coverage gate.
-- [ ] **DOC2** User guide: install, quickstart, permissions walkthrough, FAQ.
-- [ ] **DOC3** Architecture guide + refreshed diagrams + ADR index.
-- [ ] **DOC4** Operations guide: data locations, backup/restore, uninstall.
-- [ ] **DOC5** Release engineering: universal binary, notarization, SBOM, Homebrew tap.
-- [ ] **DOC6** Privacy & security whitepaper.
+- [x] **DOC1** DocC via swift-docc-plugin (`make docs`, Pages workflow); coverage enforced by `missing_docs`.
+- [x] **DOC2** User guide: [installation & quickstart](guides/installation.md) with permissions + [FAQ](guides/faq.md).
+- [x] **DOC3** [Architecture guide](guides/architecture.md) with diagrams + ADR index.
+- [x] **DOC4** [Operations guide](guides/operations.md): data locations, backup/restore, uninstall.
+- [x] **DOC5** Release engineering: release-please, universal build + notarize scripts, SBOM, Homebrew formula, v1.0 checklist.
+- [x] **DOC6** [Privacy & security whitepaper](PRIVACY.md).
