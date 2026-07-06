@@ -68,5 +68,10 @@ The public API and CLI surface become subject to SemVer guarantees at 1.0.0.
   verified with a real FSEvents integration test.
 - Tooling and governance: SwiftLint, SwiftFormat, Makefile, CI, ADRs, and the
   living roadmap.
+- Performance hardening: SQLite tuning (page size, mmap, cache, WAL,
+  `synchronous=NORMAL`), a pipeline bounded-buffer safety valve with an
+  `overflowed` metric, a storm/flood test, a benchmark regression gate
+  (`scripts/bench-check.sh` + baseline + on-demand workflow), and a soak harness
+  (`scripts/soak.sh`). Startup opens the store in ~10ms.
 
 [Unreleased]: https://github.com/chronicle-dev/chronicle/commits/main

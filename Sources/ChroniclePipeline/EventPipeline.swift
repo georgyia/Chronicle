@@ -86,6 +86,10 @@ public actor EventPipeline: EventSink {
         }
 
         buffer.append(admitted)
+        while buffer.count > settings.maxBufferedEvents {
+            buffer.removeFirst()
+            metrics.overflowed += 1
+        }
         metrics.buffered = buffer.count
         if buffer.count >= settings.batchSize {
             await flush()

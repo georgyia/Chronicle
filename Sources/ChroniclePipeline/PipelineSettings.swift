@@ -13,17 +13,22 @@ public struct PipelineSettings: Sendable, Equatable {
     public var dedupeWindow: Duration
     /// Number of recent digests retained for deduplication.
     public var dedupeCacheSize: Int
+    /// Hard cap on buffered-but-unflushed events; a safety valve against storms
+    /// where persistence cannot keep up. Oldest events are dropped past this.
+    public var maxBufferedEvents: Int
 
     /// Creates pipeline settings.
     public init(
         batchSize: Int = 128,
         flushInterval: Duration = .seconds(1),
         dedupeWindow: Duration = .milliseconds(2000),
-        dedupeCacheSize: Int = 4096
+        dedupeCacheSize: Int = 4096,
+        maxBufferedEvents: Int = 8192
     ) {
         self.batchSize = batchSize
         self.flushInterval = flushInterval
         self.dedupeWindow = dedupeWindow
         self.dedupeCacheSize = dedupeCacheSize
+        self.maxBufferedEvents = maxBufferedEvents
     }
 }

@@ -1,0 +1,6 @@
+storage.insert.50000 1700
+storage.query.range 1600
+storage.search.fts 5000
+startup.open 60
+pipeline.flood.dedup 600
+pipeline.throughput.50000 5500

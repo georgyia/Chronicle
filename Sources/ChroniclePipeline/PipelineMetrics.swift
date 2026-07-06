@@ -12,6 +12,8 @@ public struct PipelineMetrics: Sendable, Equatable, Codable {
     public var persisted: Int
     /// Events dropped because a stage threw.
     public var failed: Int
+    /// Events dropped by the buffer safety valve under sustained overload.
+    public var overflowed: Int
     /// Events currently buffered awaiting a flush.
     public var buffered: Int
 
@@ -22,6 +24,7 @@ public struct PipelineMetrics: Sendable, Equatable, Codable {
         deduplicated: Int = 0,
         persisted: Int = 0,
         failed: Int = 0,
+        overflowed: Int = 0,
         buffered: Int = 0
     ) {
         self.ingested = ingested
@@ -29,6 +32,7 @@ public struct PipelineMetrics: Sendable, Equatable, Codable {
         self.deduplicated = deduplicated
         self.persisted = persisted
         self.failed = failed
+        self.overflowed = overflowed
         self.buffered = buffered
     }
 }

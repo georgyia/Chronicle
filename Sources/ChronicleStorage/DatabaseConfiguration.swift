@@ -12,9 +12,14 @@ enum DatabaseConfiguration {
         var configuration = Configuration()
         configuration.busyMode = .timeout(5)
         configuration.prepareDatabase { db in
+            // `page_size` only takes effect on a fresh database, before tables exist.
+            try db.execute(sql: "PRAGMA page_size = 4096")
             try db.execute(sql: "PRAGMA foreign_keys = ON")
             try db.execute(sql: "PRAGMA synchronous = NORMAL")
             try db.execute(sql: "PRAGMA temp_store = MEMORY")
+            // Memory-map up to 256 MiB and keep an ~8 MiB page cache for read speed.
+            try db.execute(sql: "PRAGMA mmap_size = 268435456")
+            try db.execute(sql: "PRAGMA cache_size = -8000")
         }
         return configuration
     }

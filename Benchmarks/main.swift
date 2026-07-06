@@ -88,6 +88,33 @@ let benchmarks: [Benchmark] = [
             _ = try await store.search(matching: EventQuery(text: "module", limit: 50))
         }
     },
+    Benchmark(name: "startup.open") {
+        let url = temporaryDatabaseURL()
+        defer { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }
+        _ = try SQLiteEventStore.open(at: url)
+    },
+    Benchmark(name: "pipeline.flood.dedup") {
+        let store = try SQLiteEventStore.inMemory()
+        let session = FixedSessionProvider(sessionID: SessionID(rawValue: UUID()))
+        let pipeline = EventPipeline(
+            repository: store,
+            identifierFactory: SystemIdentifierFactory(),
+            processors: [ValidationProcessor(clock: SystemWallClock()), EnrichmentProcessor(session: session)],
+            settings: PipelineSettings(batchSize: 500, flushInterval: .seconds(60), dedupeWindow: .seconds(2))
+        )
+        await pipeline.start()
+        // A storm of identical rapid events must coalesce rather than persist each.
+        let base = Date(timeIntervalSince1970: 1_700_000_000)
+        for _ in 0..<20000 {
+            await pipeline.submit(RawEvent(
+                timestamp: base,
+                kind: .fileModified,
+                source: .filesystem,
+                attributes: [.path: "/Users/me/Projects/hot.swift"]
+            ))
+        }
+        await pipeline.shutdown()
+    },
     Benchmark(name: "pipeline.throughput.\(eventCount)") {
         let store = try SQLiteEventStore.inMemory()
         let session = FixedSessionProvider(sessionID: SessionID(rawValue: UUID()))

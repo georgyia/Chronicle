@@ -1,0 +1,21 @@
+name: Benchmarks
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * 1" # weekly, Monday 06:00 UTC
+
+jobs:
+  benchmarks:
+    name: Regression gate
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Cache SwiftPM
+        uses: actions/cache@v4
+        with:
+          path: .build
+          key: spm-bench-${{ hashFiles('Package.resolved') }}
+          restore-keys: spm-bench-
+      - name: Run benchmark regression gate
+        run: ./scripts/bench-check.sh
