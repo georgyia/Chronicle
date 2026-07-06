@@ -168,8 +168,8 @@ public actor ChronicleAgent {
         for signalNumber in [SIGTERM, SIGINT] {
             signal(signalNumber, SIG_IGN)
             let source = DispatchSource.makeSignalSource(signal: signalNumber, queue: .global())
-            source.setEventHandler { [weak self] in
-                Task { await self?.requestShutdown() }
+            source.setEventHandler { [agent = self] in
+                Task { await agent.requestShutdown() }
             }
             source.resume()
             signalSources.append(source)
@@ -177,8 +177,8 @@ public actor ChronicleAgent {
 
         signal(SIGHUP, SIG_IGN)
         let hup = DispatchSource.makeSignalSource(signal: SIGHUP, queue: .global())
-        hup.setEventHandler { [weak self] in
-            Task { await self?.onReloadRequested() }
+        hup.setEventHandler { [agent = self] in
+            Task { await agent.onReloadRequested() }
         }
         hup.resume()
         signalSources.append(hup)
