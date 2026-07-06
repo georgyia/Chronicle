@@ -9,7 +9,25 @@ public struct ChronicleCommand: AsyncParsableCommand {
         commandName: "chronicle",
         abstract: "A privacy-first activity journal for macOS.",
         version: ChronicleVersion.current,
-        subcommands: [VersionCommand.self]
+        subcommands: [
+            StatusCommand.self,
+            DaemonCommand.self,
+            TimelineCommand.self,
+            TodayCommand.self,
+            YesterdayCommand.self,
+            SearchCommand.self,
+            StatsCommand.self,
+            ExplainCommand.self,
+            InspectCommand.self,
+            ConfigCommand.self,
+            ModuleCommand.self,
+            DoctorCommand.self,
+            ExportCommand.self,
+            ImportCommand.self,
+            DeleteCommand.self,
+            ShellIntegrationCommand.self,
+            VersionCommand.self,
+        ]
     )
 
     /// Creates the root command.

@@ -55,6 +55,19 @@ lint: ## Lint sources (requires swiftlint)
 docs: ## Generate DocC documentation
 	$(SWIFT) package generate-documentation
 
+.PHONY: completions
+completions: build ## Generate shell completion scripts into ./completions
+	@mkdir -p completions
+	@.build/debug/chronicle --generate-completion-script zsh > completions/_chronicle
+	@.build/debug/chronicle --generate-completion-script bash > completions/chronicle.bash
+	@.build/debug/chronicle --generate-completion-script fish > completions/chronicle.fish
+	@echo "Wrote completions to ./completions"
+
+.PHONY: man
+man: ## Generate man pages via the ArgumentParser plugin
+	$(SWIFT) package plugin generate-manual --target chronicle --output-directory ./man || \
+		echo "Manual generation requires the swift-argument-parser manual plugin"
+
 .PHONY: clean
 clean: ## Remove build artifacts
 	$(SWIFT) package clean

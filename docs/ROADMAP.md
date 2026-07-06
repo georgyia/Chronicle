@@ -64,19 +64,19 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` planned.
 
 ## Phase 6 — CLI (M3 "Query", v0.2.0)
 
-- [ ] **L1** CLI skeleton: command tree, global flags, exit-code contract, `version`.
-- [ ] **L2** Output engine: table/plain/JSON renderers, TTY + `NO_COLOR`.
-- [ ] **L3** `daemon` + `status` over IPC (with direct-DB fallback).
-- [ ] **L4** Time-range parser: today/yesterday/last week/3d/ISO.
-- [ ] **L5** `timeline`, `today`, `yesterday`.
-- [ ] **L6** `search`: FTS + filters + highlighted snippets.
-- [ ] **L7** `stats`: counts by kind/app/day, hour heatmap.
-- [ ] **L8** `config get|set|edit|path|validate`.
-- [ ] **L9** `module list|info|enable|disable`.
-- [ ] **L10** `doctor`: permissions, launchd, DB integrity, fixes.
-- [ ] **L11** `export` (json/csv/markdown) + `import` (jsonl).
-- [ ] **L12** `inspect` + rule-based `explain`.
-- [ ] **L13** Man pages + shell completions.
+- [x] **L1** CLI skeleton: command tree, global flags (`--json/--config/-v/-q`), exit codes, `version`.
+- [x] **L2** Output engine: `Table`/`EventFormatter` renderers, JSON, TTY + `NO_COLOR`.
+- [x] **L3** `daemon` + `status` over IPC with direct-DB fallback.
+- [x] **L4** `TimeRangeParser`: today/yesterday/last week/3d/ISO/all.
+- [x] **L5** `timeline`, `today`, `yesterday`.
+- [x] **L6** `search`: FTS + filters + highlighted snippets.
+- [x] **L7** `stats`: counts by kind/source/app + hour heatmap.
+- [x] **L8** `config get|set|edit|path|validate`.
+- [x] **L9** `module list|info|enable|disable` (live reload via IPC).
+- [x] **L10** `doctor`: config, DB integrity, daemon, permissions with fixes.
+- [x] **L11** `export` (json/csv/markdown) + `import` (jsonl) + `delete`.
+- [x] **L12** `inspect` + rule-based `explain` (NarrativeBuilder).
+- [x] **L13** Shell completions + man-page targets; `shell-integration install`.
 
 ## Phase 7 — Search (M4 "Find", v0.3.0)
 

@@ -23,6 +23,11 @@ chronicle.sock
 coverage/
 .benchmarkBaselines/
 
+# Generated release artifacts
+completions/
+man/
+docs-site/
+
 # Secrets / local env
 .env
 *.p12

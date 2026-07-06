@@ -40,6 +40,15 @@ The public API and CLI surface become subject to SemVer guarantees at 1.0.0.
   config hot-reload (file watch + SIGHUP), graceful signal-driven shutdown with DB
   checkpoint, a `HealthReporter`, and a `LaunchAgentController`. The `chronicled`
   executable now runs a full agent, verified end-to-end by `DaemonTestHarness`.
+- `ChronicleQuery`: the storage-agnostic `QueryService` (built on the kernel
+  repository protocols), a `TimeRangeParser` (today/yesterday/`last week`/`3d`/ISO/
+  all), and a rule-based `NarrativeBuilder` for `explain`.
+- `ChronicleCLI` / `chronicle`: the full command surface — `status`, `daemon`
+  (install/start/stop/run), `timeline`/`today`/`yesterday`, `search`, `stats`,
+  `explain`, `inspect`, `config`, `module` (with live IPC reload), `doctor`,
+  `export` (json/csv/markdown), `import`, `delete`, and `shell-integration` — with a
+  table/JSON output engine (TTY + `NO_COLOR`), documented exit codes, and shell
+  completion generation.
 - `ChronicleCollectors`: nine collector modules discovered via `CollectorFactory` —
   filesystem (FSEvents), application (NSWorkspace), window titles (Accessibility,
   degrades gracefully), power/session, and downloads as core; and terminal (zsh

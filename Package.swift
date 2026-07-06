@@ -110,7 +110,7 @@ func package_targets() -> [Target] {
         ),
         .target(
             name: "ChronicleQuery",
-            dependencies: ["ChronicleCore", "ChronicleStorage"],
+            dependencies: ["ChronicleCore"],
             swiftSettings: common
         ),
         .target(
@@ -138,12 +138,15 @@ func package_targets() -> [Target] {
             name: "ChronicleCLI",
             dependencies: [
                 "ChronicleCore",
+                "ChronicleModels",
                 "ChronicleConfig",
                 "ChronicleStorage",
                 "ChronicleQuery",
                 "ChronicleAI",
                 "ChronicleIPC",
                 "ChronicleLogging",
+                "ChronicleCollectors",
+                "ChronicleDaemon",
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
             ],
             swiftSettings: common
