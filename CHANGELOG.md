@@ -6,6 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 The public API and CLI surface become subject to SemVer guarantees at 1.0.0.
 
+## [0.0.2](https://github.com/georgyia/Chronicle/compare/v0.0.1...v0.0.2) (2026-07-06)
+
+
+### Features
+
+* **ai:** add local-first semantic search and summaries (Phase 8) ([82aba21](https://github.com/georgyia/Chronicle/commit/82aba2151cee2652650ab1d51db7caa12a97f4a0))
+* **cli:** add the full chronicle command surface (Phase 6) ([c87453a](https://github.com/georgyia/Chronicle/commit/c87453a09b145b667d628a51ef9f18a2dccfcb55))
+* **collectors:** add nine collector modules (Phase 5) ([f1ba379](https://github.com/georgyia/Chronicle/commit/f1ba37903981c1b99d4dffb23c24f5e7e3716736))
+* **daemon:** add agent, collector supervisor, and IPC control (Phase 4) ([6b4d794](https://github.com/georgyia/Chronicle/commit/6b4d7946f875bcd987289b8017baca6ba3f1f9f8))
+* establish project foundation and kernel (Phase 1) ([d065433](https://github.com/georgyia/Chronicle/commit/d0654333016c5a0ac8586a74060d5135e251945a))
+* **pipeline:** add ingestion pipeline with validate/enrich/dedupe stages (Phase 3) ([e25687f](https://github.com/georgyia/Chronicle/commit/e25687fbce89b03c030cd8cc5c0f0fb0d6bc094a))
+* **query:** add search grammar, relevance ranking, and sessions (Phase 7) ([12e7d6b](https://github.com/georgyia/Chronicle/commit/12e7d6b0f39eb29a10d2372448df68d481ed26a7))
+* **storage:** add SQLite event store with FTS5 and migrations (Phase 2) ([d298708](https://github.com/georgyia/Chronicle/commit/d29870898fecd545d2ef191c9a58e9f7168bc5f5))
+
+
+### Performance Improvements
+
+* add tuning, storm hardening, and benchmark gates (Phase 9) ([1d355e3](https://github.com/georgyia/Chronicle/commit/1d355e31e9d25c3d0bb9cdcc19d8f4e1de492e0a))
+
 ## [Unreleased]
 
 ### Added
