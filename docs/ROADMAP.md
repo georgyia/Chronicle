@@ -87,12 +87,12 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` planned.
 
 ## Phase 8 — AI (M5 "Understand", v0.4.0)
 
-- [ ] **A1** `ChronicleAI` protocols + provider registry + Keychain secrets.
-- [ ] **A2** Local embeddings + vector store + incremental backfill.
-- [ ] **A3** `search --semantic`: hybrid lexical+vector fusion.
-- [ ] **A4** `summarize <range>` with rule-based fallback.
-- [ ] **A5** Remote providers (OpenAI-compatible, Ollama) behind the redaction gate.
-- [ ] **A6** AI eval harness (golden queries/summaries).
+- [x] **A1** `ChronicleAI` protocols (`EmbeddingProvider`, `Summarizer`), config gate, Keychain secrets.
+- [x] **A2** Local embeddings (`NLEmbedding` + hashing fallback), `embeddings` table (schema v2), resumable backfill.
+- [x] **A3** `search --semantic`: hybrid lexical+vector fusion (Reciprocal Rank Fusion).
+- [x] **A4** `summarize <range>` with offline rule-based fallback.
+- [x] **A5** Remote providers (OpenAI-compatible, Ollama) behind the `TextRedactor` egress gate.
+- [x] **A6** AI eval harness: golden semantic-ranking and fusion tests.
 
 ## Phase 9 — Performance (M6 "Harden", v0.9.0 RC)
 

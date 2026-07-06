@@ -18,6 +18,7 @@ public struct ChronicleCommand: AsyncParsableCommand {
             SearchCommand.self,
             StatsCommand.self,
             ExplainCommand.self,
+            SummarizeCommand.self,
             InspectCommand.self,
             ConfigCommand.self,
             ModuleCommand.self,

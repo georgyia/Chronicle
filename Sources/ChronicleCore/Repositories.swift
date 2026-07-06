@@ -44,6 +44,24 @@ public protocol SearchRepository: Sendable {
     func search(matching query: EventQuery) async throws -> [SearchHit]
 }
 
+/// Persistence for per-event embedding vectors (used by AI semantic search).
+public protocol EmbeddingRepository: Sendable {
+    /// Stores (or replaces) the embedding vector for an event under a model.
+    func storeEmbedding(id: EventID, model: String, vector: [Float]) async throws
+
+    /// Fetches the embedding vector for an event under a model, if present.
+    func embedding(id: EventID, model: String) async throws -> [Float]?
+
+    /// Returns ids of the most recent events lacking an embedding for a model.
+    func idsMissingEmbeddings(model: String, limit: Int) async throws -> [EventID]
+
+    /// Returns all embeddings for a model (for in-memory nearest-neighbour search).
+    func allEmbeddings(model: String) async throws -> [(id: EventID, vector: [Float])]
+
+    /// The number of stored embeddings for a model.
+    func embeddingCount(model: String) async throws -> Int
+}
+
 /// Aggregate statistics over the event store, computed in SQL for efficiency.
 public protocol StatisticsRepository: Sendable {
     /// Event counts grouped by kind within an optional range.

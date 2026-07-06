@@ -1,4 +1,5 @@
 import ArgumentParser
+import ChronicleAI
 import ChronicleCore
 import ChronicleModels
 import ChronicleQuery
@@ -156,14 +157,26 @@ struct SearchCommand: AsyncParsableCommand {
 
     func run() async throws {
         let context = try CLIContext.make(options)
-        if semantic, !context.configuration.ai.enabled {
-            printError("Semantic search requires the AI module; falling back to text search.")
-        }
         let parsed = SearchQueryParser.parse(query)
         var eventQuery = SearchQueryParser.makeEventQuery(parsed, limit: filters.limit)
         overlay(&eventQuery)
-        let hits = try await context.query.find(eventQuery)
-        try emitHits(hits, json: options.json)
+        let lexical = try await context.query.find(eventQuery)
+
+        if semantic, context.configuration.ai.enabled {
+            let service = SemanticSearchService(
+                provider: EmbeddingProviders.makeDefault(),
+                embeddings: context.store,
+                events: context.store
+            )
+            _ = try? await service.backfill(limit: 2000)
+            let hits = try await service.hybrid(parsed.text ?? query, lexical: lexical, limit: filters.limit)
+            try emitHits(hits, json: options.json)
+            return
+        }
+        if semantic {
+            printError("Semantic search requires the AI module; showing text results.")
+        }
+        try emitHits(lexical, json: options.json)
     }
 
     /// Overlays explicit `--kind/--source/--app/--path/--range` flags onto the

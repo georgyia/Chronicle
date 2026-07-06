@@ -232,7 +232,7 @@ func package_targets() -> [Target] {
         ),
         .testTarget(
             name: "ChronicleAITests",
-            dependencies: ["ChronicleAI", "ChronicleTestSupport"],
+            dependencies: ["ChronicleAI", "ChronicleStorage", "ChronicleTestSupport"],
             swiftSettings: common
         ),
         .testTarget(

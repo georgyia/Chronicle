@@ -40,6 +40,13 @@ The public API and CLI surface become subject to SemVer guarantees at 1.0.0.
   config hot-reload (file watch + SIGHUP), graceful signal-driven shutdown with DB
   checkpoint, a `HealthReporter`, and a `LaunchAgentController`. The `chronicled`
   executable now runs a full agent, verified end-to-end by `DaemonTestHarness`.
+- `ChronicleAI`: local-first AI. `EmbeddingProvider` (Apple `NLEmbedding` with a
+  hashing fallback), a persisted embedding store (`embeddings` table, schema v2)
+  with resumable backfill, `SemanticSearchService` with Reciprocal Rank Fusion for
+  `search --semantic`, a `Summarizer` with OpenAI-compatible and Ollama providers
+  behind a `TextRedactor` egress gate (Keychain-stored keys), and the `summarize`
+  command with an offline rule-based fallback. AI is off by default with no network
+  egress unless a remote provider is explicitly enabled.
 - `ChronicleQuery`: the storage-agnostic `QueryService` (built on the kernel
   repository protocols), a `TimeRangeParser` (today/yesterday/`last week`/`3d`/ISO/
   all), a rule-based `NarrativeBuilder` for `explain`, a `SearchQueryParser` filter

@@ -9,7 +9,7 @@ public final class ConfigurationFileWatcher: @unchecked Sendable {
     private let url: URL
     private let onChange: @Sendable () -> Void
     private let queue = DispatchQueue(label: "dev.chronicle.config-watcher")
-    private var source: DispatchSourceFileSystemObject?
+    private var source: (any DispatchSourceFileSystemObject)?
     private var descriptor: Int32 = -1
     private var isRunning = false
 

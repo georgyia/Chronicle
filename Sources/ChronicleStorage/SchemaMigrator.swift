@@ -10,7 +10,22 @@ enum SchemaMigrator {
     static func make() -> DatabaseMigrator {
         var migrator = DatabaseMigrator()
         registerV1(in: &migrator)
+        registerV2(in: &migrator)
         return migrator
+    }
+
+    private static func registerV2(in migrator: inout DatabaseMigrator) {
+        migrator.registerMigration("v2.embeddings") { db in
+            try db.execute(sql: """
+            CREATE TABLE embeddings (
+                event_id TEXT NOT NULL REFERENCES events(id) ON DELETE CASCADE,
+                model    TEXT NOT NULL,
+                vector   BLOB NOT NULL,
+                PRIMARY KEY (event_id, model)
+            )
+            """)
+            try db.execute(sql: "CREATE INDEX idx_embeddings_model ON embeddings(model)")
+        }
     }
 
     private static func registerV1(in migrator: inout DatabaseMigrator) {

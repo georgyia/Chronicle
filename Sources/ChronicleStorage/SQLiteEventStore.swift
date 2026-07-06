@@ -9,7 +9,7 @@ import GRDB
 /// reads, or an in-memory `DatabaseQueue` in tests). Writes are serialized by the
 /// writer; reads run concurrently. This is the only type in the system that speaks
 /// SQL.
-public final class SQLiteEventStore: EventRepository, SearchRepository, StatisticsRepository, Sendable {
+public final class SQLiteEventStore: Sendable {
     let writer: any DatabaseWriter
     let mapper = EventMapper()
     let planner = EventQueryPlanner()
@@ -67,6 +67,10 @@ public final class SQLiteEventStore: EventRepository, SearchRepository, Statisti
         StatementArguments(values.map { $0 as any DatabaseValueConvertible })
     }
 }
+
+/// Conformances are declared here; the requirements are satisfied in the focused
+/// extensions in this module (EventRepository, Search, Statistics, Embeddings).
+extension SQLiteEventStore: EventRepository, SearchRepository, StatisticsRepository, EmbeddingRepository {}
 
 // MARK: - EventRepository
 

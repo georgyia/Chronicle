@@ -7,5 +7,5 @@
 /// composition root.
 public enum ChronicleStorage {
     /// The storage schema version this build manages.
-    public static let schemaVersion = 1
+    public static let schemaVersion = 2
 }
