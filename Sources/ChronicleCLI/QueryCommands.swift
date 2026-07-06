@@ -78,11 +78,35 @@ struct TimelineCommand: AsyncParsableCommand {
     @OptionGroup var options: GlobalOptions
     @OptionGroup var filters: FilterOptions
 
+    @Flag(name: .long, help: "Group activity into sessions instead of listing events.")
+    var sessions = false
+
     func run() async throws {
         let context = try CLIContext.make(options)
         let interval = TimeRangeParser.parse(filters.range ?? "today")
+        if sessions {
+            let reconstructed = try await context.query.sessions(range: interval)
+            emitSessions(reconstructed, json: options.json)
+            return
+        }
         let events = try await context.query.timeline(filters.makeQuery(range: interval))
         try emit(events, json: options.json)
+    }
+}
+
+/// Prints reconstructed activity sessions.
+func emitSessions(_ sessions: [ActivitySession], json: Bool) {
+    let timeFormatter = DateFormatter()
+    timeFormatter.dateFormat = "MMM d HH:mm"
+    guard !sessions.isEmpty else {
+        print("No sessions found.")
+        return
+    }
+    for session in sessions {
+        let duration = Int(session.end.timeIntervalSince(session.start) / 60)
+        let apps = session.topApps.isEmpty ? "" : " — " + session.topApps.joined(separator: ", ")
+        print("\(timeFormatter.string(from: session.start))–\(timeFormatter.string(from: session.end)) "
+            + "(\(duration)m, \(session.eventCount) events)\(apps)")
     }
 }
 
@@ -127,7 +151,7 @@ struct SearchCommand: AsyncParsableCommand {
     @Flag(name: .long, help: "Use AI semantic search (requires the AI module).")
     var semantic = false
 
-    @Argument(help: "The text to search for.")
+    @Argument(help: "Search text, optionally with kind:/app:/path:/before:/after: filters.")
     var query: String
 
     func run() async throws {
@@ -135,9 +159,21 @@ struct SearchCommand: AsyncParsableCommand {
         if semantic, !context.configuration.ai.enabled {
             printError("Semantic search requires the AI module; falling back to text search.")
         }
-        let interval = TimeRangeParser.parse(filters.range ?? "all")
-        let hits = try await context.query.find(filters.makeQuery(range: interval, text: query))
+        let parsed = SearchQueryParser.parse(query)
+        var eventQuery = SearchQueryParser.makeEventQuery(parsed, limit: filters.limit)
+        overlay(&eventQuery)
+        let hits = try await context.query.find(eventQuery)
         try emitHits(hits, json: options.json)
+    }
+
+    /// Overlays explicit `--kind/--source/--app/--path/--range` flags onto the
+    /// filters parsed from the query string.
+    private func overlay(_ query: inout EventQuery) {
+        query.kinds.formUnion(filters.kind.map { EventKind(rawValue: $0) })
+        query.sources.formUnion(filters.source.map { CollectorSource(rawValue: $0) })
+        if let app = filters.app { query.appName = app }
+        if let path = filters.path { query.pathPrefix = (path as NSString).expandingTildeInPath }
+        if let range = filters.range { query.range = TimeRangeParser.parse(range) }
     }
 
     private func emitHits(_ hits: [SearchHit], json: Bool) throws {

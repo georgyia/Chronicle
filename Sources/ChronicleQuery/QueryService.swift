@@ -74,9 +74,19 @@ public struct QueryService: Sendable {
         try await events.events(matching: query)
     }
 
-    /// Runs a full-text search.
-    public func find(_ query: EventQuery) async throws -> [SearchHit] {
-        try await search.search(matching: query)
+    /// Runs a full-text search and applies recency-aware ranking.
+    public func find(_ query: EventQuery, now: Date = Date()) async throws -> [SearchHit] {
+        let hits = try await search.search(matching: query)
+        return RelevanceRanker.rank(hits, now: now)
+    }
+
+    /// Reconstructs activity sessions over a range.
+    public func sessions(
+        range: DateInterval?,
+        idleGap: TimeInterval = SessionReconstructor.defaultIdleGap
+    ) async throws -> [ActivitySession] {
+        let events = try await events.events(matching: EventQuery(range: range, order: .ascending, limit: nil))
+        return SessionReconstructor.sessions(from: events, idleGap: idleGap)
     }
 
     /// Looks up one event by id.

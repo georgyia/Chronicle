@@ -42,7 +42,10 @@ The public API and CLI surface become subject to SemVer guarantees at 1.0.0.
   executable now runs a full agent, verified end-to-end by `DaemonTestHarness`.
 - `ChronicleQuery`: the storage-agnostic `QueryService` (built on the kernel
   repository protocols), a `TimeRangeParser` (today/yesterday/`last week`/`3d`/ISO/
-  all), and a rule-based `NarrativeBuilder` for `explain`.
+  all), a rule-based `NarrativeBuilder` for `explain`, a `SearchQueryParser` filter
+  grammar (`kind: source: app: path: before: after: "text"`), a `RelevanceRanker`
+  (bm25 relevance with a recency boost), and a `SessionReconstructor` powering
+  `timeline --sessions`. Query-plan audit tests ensure hot paths use indexes.
 - `ChronicleCLI` / `chronicle`: the full command surface — `status`, `daemon`
   (install/start/stop/run), `timeline`/`today`/`yesterday`, `search`, `stats`,
   `explain`, `inspect`, `config`, `module` (with live IPC reload), `doctor`,

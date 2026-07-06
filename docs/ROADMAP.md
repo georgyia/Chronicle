@@ -80,10 +80,10 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` planned.
 
 ## Phase 7 — Search (M4 "Find", v0.3.0)
 
-- [ ] **Q1** Filter query grammar (`kind: app: path: before: "text"`).
-- [ ] **Q2** Relevance tuning (bm25 weights, recency boost, snippets).
-- [ ] **Q3** Session reconstruction for `timeline --sessions` and `explain`.
-- [ ] **Q4** Search at 10M rows: query-plan audit, index fixes.
+- [x] **Q1** `SearchQueryParser` grammar (`kind: source: app: path: before: after: "text"`).
+- [x] **Q2** `RelevanceRanker`: bm25 relevance with a recency boost; FTS5 snippets.
+- [x] **Q3** `SessionReconstructor` for `timeline --sessions` and `explain`.
+- [x] **Q4** Query-plan audit tests assert hot paths use indexes (not full scans).
 
 ## Phase 8 — AI (M5 "Understand", v0.4.0)
 

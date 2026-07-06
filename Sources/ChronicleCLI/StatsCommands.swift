@@ -94,7 +94,12 @@ struct ExplainCommand: AsyncParsableCommand {
         let context = try CLIContext.make(options)
         let interval = TimeRangeParser.parse(range)
         let report = try await context.query.report(range: interval)
-        let narrative = NarrativeBuilder.narrative(from: report)
+        let sessions = try await context.query.sessions(range: interval)
+
+        var narrative = NarrativeBuilder.narrative(from: report)
+        if !sessions.isEmpty {
+            narrative += " You had \(sessions.count) activity session\(sessions.count == 1 ? "" : "s")."
+        }
 
         if options.json {
             let data = try JSONSerialization.data(withJSONObject: ["narrative": narrative], options: [.prettyPrinted])
