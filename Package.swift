@@ -166,6 +166,7 @@ func package_targets() -> [Target] {
             name: "chronicled",
             dependencies: [
                 "ChronicleDaemon",
+                "ChronicleCollectors",
                 "ChronicleLogging",
                 "ChronicleConfig",
                 "ChronicleStorage",

@@ -1,3 +1,4 @@
+import ChronicleCollectors
 import ChronicleConfig
 import ChronicleCore
 import ChronicleDaemon
@@ -22,10 +23,14 @@ let logger = Logger(label: ChronicleConstants.launchAgentLabel)
 do {
     let store = try SQLiteEventStore.open(at: paths.databaseFile)
 
-    // Phase 4 ships the heartbeat collector as the only wired module; Phase 5
-    // expands this factory to the real collectors keyed off configuration.
+    // Build the enabled collector set from configuration; the heartbeat module
+    // remains available as an opt-in diagnostic.
     let collectorFactory: @Sendable (ChronicleConfiguration) -> [any EventCollector] = { config in
-        config.isModuleEnabled("heartbeat", defaultEnabled: false) ? [HeartbeatCollector()] : []
+        var collectors = CollectorFactory.makeCollectors(configuration: config)
+        if config.isModuleEnabled("heartbeat", defaultEnabled: false) {
+            collectors.append(HeartbeatCollector())
+        }
+        return collectors
     }
 
     let agent = AgentAssembly.makeAgent(AgentInputs(

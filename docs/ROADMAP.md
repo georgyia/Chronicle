@@ -52,15 +52,15 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` planned.
 
 ## Phase 5 — Collectors (M2 "Observe", v0.1.0)
 
-- [ ] **C1** FileSystem collector (FSEvents; create/modify/move/rename/delete/trash).
-- [ ] **C2** App lifecycle collector (NSWorkspace).
-- [ ] **C3** Window title collector (Accessibility).
-- [ ] **C4** Power/session collector (sleep/wake, lock/unlock, login/logout).
-- [ ] **C5** Downloads collector (`~/Downloads`, `kMDItemWhereFroms`).
-- [ ] **C6** Terminal collector (optional; zsh hook over IPC).
-- [ ] **C7** Browser history collector (optional; Safari/Chrome/Arc/Firefox).
-- [ ] **C8** Clipboard collector (optional; hash-only default).
-- [ ] **C9** Git collector (optional; reflog watch).
+- [x] **C1** FileSystem collector (FSEvents; create/modify/move/rename/delete/trash).
+- [x] **C2** App lifecycle collector (NSWorkspace).
+- [x] **C3** Window title collector (Accessibility, graceful degradation).
+- [x] **C4** Power/session collector (sleep/wake, lock/unlock, login/logout).
+- [x] **C5** Downloads collector (`~/Downloads`, `kMDItemWhereFroms`).
+- [x] **C6** Terminal collector (optional; zsh hook over FIFO).
+- [x] **C7** Browser history collector (optional; Safari/Chrome/Arc via sqlite3).
+- [x] **C8** Clipboard collector (optional; hash-only default, concealed-type aware).
+- [x] **C9** Git collector (optional; reflog tail).
 
 ## Phase 6 — CLI (M3 "Query", v0.2.0)
 

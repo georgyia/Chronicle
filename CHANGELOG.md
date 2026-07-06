@@ -40,6 +40,13 @@ The public API and CLI surface become subject to SemVer guarantees at 1.0.0.
   config hot-reload (file watch + SIGHUP), graceful signal-driven shutdown with DB
   checkpoint, a `HealthReporter`, and a `LaunchAgentController`. The `chronicled`
   executable now runs a full agent, verified end-to-end by `DaemonTestHarness`.
+- `ChronicleCollectors`: nine collector modules discovered via `CollectorFactory` —
+  filesystem (FSEvents), application (NSWorkspace), window titles (Accessibility,
+  degrades gracefully), power/session, and downloads as core; and terminal (zsh
+  FIFO), browser history (sqlite3), clipboard (hash-only default), and git (reflog)
+  as opt-in sensitive modules. Pure logic (path filtering, event classification,
+  reflog and browser-time parsing) is unit-tested, and the filesystem collector is
+  verified with a real FSEvents integration test.
 - Tooling and governance: SwiftLint, SwiftFormat, Makefile, CI, ADRs, and the
   living roadmap.
 
