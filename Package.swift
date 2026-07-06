@@ -123,6 +123,7 @@ func package_targets() -> [Target] {
         .target(
             name: "ChronicleDaemon",
             dependencies: [
+                "ChronicleModels",
                 "ChronicleCore",
                 "ChronicleLogging",
                 "ChronicleConfig",
@@ -163,7 +164,13 @@ func package_targets() -> [Target] {
         ),
         .executableTarget(
             name: "chronicled",
-            dependencies: ["ChronicleDaemon", "ChronicleLogging", "ChronicleConfig"],
+            dependencies: [
+                "ChronicleDaemon",
+                "ChronicleLogging",
+                "ChronicleConfig",
+                "ChronicleStorage",
+                "ChronicleCore",
+            ],
             swiftSettings: common
         ),
         .executableTarget(
@@ -241,6 +248,9 @@ func package_targets() -> [Target] {
         .testTarget(
             name: "IntegrationTests",
             dependencies: [
+                "ChronicleModels",
+                "ChronicleCore",
+                "ChronicleConfig",
                 "ChronicleDaemon",
                 "ChronicleStorage",
                 "ChronicleQuery",

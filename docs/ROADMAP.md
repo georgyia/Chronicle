@@ -41,14 +41,14 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` planned.
 
 ## Phase 4 — Daemon (M1 "Ingest")
 
-- [ ] **D1** `chronicled` executable: composition root, `run` mode, heartbeat E2E.
-- [ ] **D2** LaunchAgent management: plist template, install/uninstall/start/stop.
-- [ ] **D3** Collector supervisor: registry, isolation, backoff restart, degradation.
-- [ ] **D4** IPC server: unix socket, protocol v1, version handshake.
-- [ ] **D5** Config hot reload: watch + SIGHUP + IPC reload.
-- [ ] **D6** Signals & graceful shutdown: drain pipeline, checkpoint DB.
-- [ ] **D7** Health: heartbeat file, crash-loop detection, startup banner.
-- [ ] **D8** Integration harness: sandboxed agent + synthetic events.
+- [x] **D1** `chronicled` executable: composition root (`AgentAssembly`), heartbeat E2E proven.
+- [x] **D2** `LaunchAgentController`: plist generation + install/uninstall/start/stop via launchctl.
+- [x] **D3** `CollectorSupervisor`: per-collector task isolation, backoff restart, live reconfigure.
+- [x] **D4** `IPCServer`/`IPCClient`: unix socket, versioned framed protocol v1.
+- [x] **D5** Config hot reload: `ConfigurationFileWatcher` + SIGHUP + IPC `reload` -> supervisor reconfigure.
+- [x] **D6** Signals & graceful shutdown: SIGTERM/SIGINT drain pipeline + checkpoint DB.
+- [x] **D7** Health: `HealthReporter` heartbeat file, launchd throttle, startup banner.
+- [x] **D8** `DaemonTestHarness`: sandboxed in-process agent driving the full flow.
 
 ## Phase 5 — Collectors (M2 "Observe", v0.1.0)
 

@@ -99,6 +99,9 @@ public extension EventKind {
     /// A git commit was made (optional module).
     static let gitCommit: EventKind = "git.commit"
 
+    /// A periodic daemon liveness marker.
+    static let heartbeat: EventKind = "system.heartbeat"
+
     /// The set of kinds enabled by Chronicle's default (core) collectors.
     static let coreKinds: Set<EventKind> = [
         .fileCreated, .fileModified, .fileMoved, .fileRenamed, .fileDeleted,

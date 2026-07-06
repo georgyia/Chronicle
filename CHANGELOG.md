@@ -32,6 +32,14 @@ The public API and CLI surface become subject to SemVer guarantees at 1.0.0.
   classification, frontmost-app context), and SHA-256 sliding-window deduplication —
   plus a batching persister with count/interval flush and graceful shutdown, and
   `PipelineMetrics`. Sustains ~9.5k events/s in the throughput benchmark.
+- `ChronicleIPC`: a versioned, length-prefixed JSON control protocol over a Unix
+  domain socket, with a POSIX `IPCServer`/`IPCClient` (ping, status, reload, pause,
+  resume, flush, shutdown).
+- `ChronicleDaemon`: the `ChronicleAgent` actor orchestrating the pipeline, a
+  fault-isolating `CollectorSupervisor` with live reconfiguration, the IPC server,
+  config hot-reload (file watch + SIGHUP), graceful signal-driven shutdown with DB
+  checkpoint, a `HealthReporter`, and a `LaunchAgentController`. The `chronicled`
+  executable now runs a full agent, verified end-to-end by `DaemonTestHarness`.
 - Tooling and governance: SwiftLint, SwiftFormat, Makefile, CI, ADRs, and the
   living roadmap.
 
